@@ -1,0 +1,4 @@
+name: coinductive-llpo
+include: .
+depend: cubical
+flags: --cubical --no-import-sorts --guardedness --postfix-projections
