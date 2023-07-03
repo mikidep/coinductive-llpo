@@ -39,9 +39,9 @@ module _
   {B : A → Type ℓ'}
   {C : (a : A) → B a → Type ℓ''} where
 
-  infixl 9 _»_
-  _»_ : (f : (a : A) → B a) → (g : {a : A} → (b : B a) → C a b) → (a : A) → C a (f a)
-  _»_ f g x = g (f x) 
+  infixl 9 _；_
+  _；_ : (f : (a : A) → B a) → (g : {a : A} → (b : B a) → C a b) → (a : A) → C a (f a)
+  _；_ f g x = g (f x) 
 
 module _
   {ℓ ℓ' ℓ'' ℓ''' : Level}
@@ -50,11 +50,11 @@ module _
   {C : (a : A) → B a → Type ℓ''}
   {D : (a : A) (b : B a) → C a b → Type ℓ'''} where
 
-  »-assoc : (f : (a : A) → B a)
+  ；-assoc : (f : (a : A) → B a)
             (g : {a : A} → (b : B a) → C a b)
             (h : {a : A} {b : B a} → (c : C a b) → D a b c)
-          → f » g » h ≡ f » (g » h)
-  »-assoc f g h = ∘-assoc h g f
+          → f ； g ； h ≡ f ； (g ； h)
+  ；-assoc f g h = ∘-assoc h g f
 
 ≡[-]-syntax :
   ∀ {ℓa ℓb}
@@ -151,3 +151,11 @@ module ΣDepPathChar {ℓ ℓ'} {A : Type ℓ} {B : A → Type ℓ'} where
   Σ≡ {x} {y} = fst $ Σ≡equiv x y
 
 open ΣDepPathChar public
+
+infixl 5 _‣_
+
+_‣_ : {ℓ ℓ' : _} {A : Type ℓ} {B : A → Type ℓ'} → (a : A) → ((a : A) → B a) → B a
+x ‣ f = f x
+
+case_return_of_ : ∀ {a b} {A : Type a} (x : A) (B : A → Type b) → (∀ x → B x) → B x
+case x return B of f = f x
